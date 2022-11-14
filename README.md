@@ -1,1 +1,1 @@
-# othollo_python
+# othello_python
