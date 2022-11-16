@@ -6,12 +6,8 @@ class Color(Enum):
     BLACK = 1
 
 
-def reverse_color(color):
-    return Color.WHITE if color == Color.BLACK else Color.BLACK
-
-
 class Stone:
-    def __init__(self, color) -> None:
+    def __init__(self, color: Color) -> None:
         self.color = color
 
     def get(self) -> str:
@@ -34,13 +30,13 @@ class Stone:
 
 
 class Cell:
-    def __init__(self, color=None) -> None:
+    def __init__(self, color: Color = None) -> None:
         if color is None:
             self.stone = None
         else:
             self.stone = Stone(color)
 
-    def put(self, color) -> None:
+    def put(self, color: Color) -> None:
         self.stone = Stone(color)
 
     def draw(self) -> None:
@@ -68,7 +64,7 @@ class Cell:
 
 
 class Address:
-    def __init__(self, x, y) -> None:
+    def __init__(self, x: int, y: int) -> None:
         self.x = x
         self.y = y
 
@@ -89,34 +85,57 @@ class Board:
                 cell.draw()
             print("|")
 
-    def put(self, color, x, y) -> bool:
+    def put(self, x: int, y: int, color: Color) -> bool:
         self.board[x][y].put(color)
         return True
 
 
-print("石を置きたい場所を「列番号,行番号」の形式で入力して下さい。例）左上隅の場合：0,0")
-print("やめたい時は「quit」と入力して下さい。")
-print("パスをしたい時は「pass」と入力して下さい。")
+class Controller:
+    def __init__(self, turn: Color) -> None:
+        self.turn = turn
+        self.board = Board()
 
-turn = Color.WHITE
-print("白の番です。" if turn == Color.WHITE else "黒の番です。")
-board = Board()
-board.draw()
+    def change_trun(self) -> None:
+        if self.turn == Color.WHITE:
+            self.turn = Color.BLACK
+        else:
+            self.turn = Color.WHITE
 
-input_str = ""
-while input_str != "quit":
-    # 文字を入力する
-    input_str = input("> ")
-    print(f"入力した文字列は{input_str}です。")
-    if input_str == "pass":
-        break
-    inputs = input_str.split(",")
-    can_put = board.put(turn, int(inputs[0]), int(inputs[1]))
-    if can_put:
-        turn = reverse_color(turn)
-    else:
-        print("そこには置けません。")
-    print("白の番です。" if turn == Color.WHITE else "黒の番です。")
-    board.draw()
+    def validate(self, inputs: list[str]) -> bool:
+        x = inputs[0]
+        y = inputs[1]
+        if x.isdecimal() and 0 <= int(x) < 7 and y.isdecimal() and 0 <= int(y) <= 7:
+            return True
+        else:
+            return False
 
-print("終了しました")
+    def start(self) -> None:
+        print("石を置きたい場所を「列番号,行番号」の形式で入力して下さい。例）左上隅の場合：0,0")
+        print("やめたい時は「quit」と入力して下さい。")
+        print("パスをしたい時は「pass」と入力して下さい。")
+
+        while True:
+            print("白の番です。" if self.turn == Color.WHITE else "黒の番です。")
+            self.board.draw()
+            input_str = input("> ")
+            if input_str == "quit":
+                break
+            if input_str == "pass":
+                print("パスします。")
+                self.change_trun()
+                continue
+            inputs = [str.strip() for str in input_str.split(",")]
+            if not self.validate(inputs):
+                print("入力内容が不正です。「列番号,行番号」の形式で入力して下さい。例）左上隅の場合：0,0")
+                continue
+            if not self.board.put(int(inputs[0]), int(inputs[1]), self.turn):
+                print("そこには置けません。")
+                continue
+            self.turn = self.change_trun()
+
+        print("終了します。")
+
+
+if __name__ == "__main__":
+    ctrl = Controller(Color.WHITE)
+    ctrl.start()
