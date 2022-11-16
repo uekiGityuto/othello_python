@@ -34,7 +34,7 @@ class Stone:
 
 
 class Cell:
-    def __init__(self, color = None) -> None:
+    def __init__(self, color=None) -> None:
         if color is None:
             self.stone = None
         else:
@@ -67,6 +67,12 @@ class Cell:
             return self.stone.is_black()
 
 
+class Address:
+    def __init__(self, x, y) -> None:
+        self.x = x
+        self.y = y
+
+
 class Board:
     def __init__(self) -> None:
         self.board = [[Cell() for i in range(8)] for i in range(8)]
@@ -75,14 +81,17 @@ class Board:
         self.board[4][3].put(Color.WHITE)
         self.board[4][4].put(Color.BLACK)
 
-
     def draw(self) -> None:
-        print('  0 1 2 3 4 5 6 7')
+        print("  0 1 2 3 4 5 6 7")
         for i, row in enumerate(self.board):
             print(i, end="")
             for cell in row:
                 cell.draw()
-            print('|')
+            print("|")
+
+    def put(self, color, x, y) -> bool:
+        self.board[x][y].put(color)
+        return True
 
 
 print("石を置きたい場所を「列番号,行番号」の形式で入力して下さい。例）左上隅の場合：0,0")
@@ -101,7 +110,12 @@ while input_str != "quit":
     print(f"入力した文字列は{input_str}です。")
     if input_str == "pass":
         break
-    turn = reverse_color(turn)
+    inputs = input_str.split(",")
+    can_put = board.put(turn, int(inputs[0]), int(inputs[1]))
+    if can_put:
+        turn = reverse_color(turn)
+    else:
+        print("そこには置けません。")
     print("白の番です。" if turn == Color.WHITE else "黒の番です。")
     board.draw()
 
