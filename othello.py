@@ -102,6 +102,20 @@ class Board:
             self.ref_cell(t).reverse()
         return True
 
+    def count_black(self) -> int:
+        count = 0
+        for row in self.board:
+            for cell in row:
+                count += 1 if cell.is_black() else 0
+        return count
+
+    def count_white(self) -> int:
+        count = 0
+        for row in self.board:
+            for cell in row:
+                count += 1 if cell.is_white() else 0
+        return count
+
     def ref_cell(self, address: Address) -> Cell:
         return self.board[address.y][address.x]
 
@@ -214,7 +228,19 @@ class Controller:
                 continue
             self.change_trun()
 
-        print("終了します。")
+        self.end()
+
+    def end(self) -> None:
+        black_num = self.board.count_black()
+        white_num = self.board.count_white()
+        print(f'白: {black_num}')
+        print(f'黒: {white_num}')
+        if white_num > black_num:
+            print('白の勝利です。')
+        elif black_num > white_num:
+            print('黒の勝利です。')
+        else:
+            print('引き分けです。')
 
 
 if __name__ == "__main__":
