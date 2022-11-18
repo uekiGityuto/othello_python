@@ -1,4 +1,5 @@
 from enum import Enum
+from typing import List, Optional, Callable
 
 
 class Color(Enum):
@@ -30,7 +31,7 @@ class Stone:
 
 
 class Cell:
-    def __init__(self, color: Color = None) -> None:
+    def __init__(self, color: Optional[Color] = None) -> None:
         if color is None:
             self.stone = None
         else:
@@ -51,13 +52,13 @@ class Cell:
         return self.stone is None
 
     def is_white(self) -> bool:
-        if self.is_none():
+        if self.stone is None:
             return False
         else:
             return self.stone.is_white()
 
     def is_black(self) -> bool:
-        if self.is_none():
+        if self.stone is None:
             return False
         else:
             return self.stone.is_black()
@@ -67,6 +68,12 @@ class Address:
     def __init__(self, x: int, y: int) -> None:
         self.x = x
         self.y = y
+
+    def is_valid(self) -> bool:
+        if 0 <= self.x <= 7 and 0 <= self.y <= 7:
+            return True
+        else:
+            return False
 
 
 class Board:
@@ -85,9 +92,79 @@ class Board:
                 cell.draw()
             print("|")
 
-    def put(self, x: int, y: int, color: Color) -> bool:
-        self.board[x][y].put(color)
+    def put(self, color: Color, address: Address) -> bool:
+        targets = self.search(color, address)
+        if len(targets) == 0:
+            return False
+
+        self.ref_cell(address).put(color)
+        for t in targets:
+            self.ref_cell(t).reverse()
         return True
+
+    def ref_cell(self, address: Address) -> Cell:
+        return self.board[address.y][address.x]
+
+    def search(self, turn: Color, startPoint: Address) -> List[Address]:
+        def search_next(
+            current: Address, list: List[Address], next: Callable[[Address], Address]
+        ) -> List[Address]:
+            next_address = next(current)
+            if not next_address.is_valid:
+                return []
+            next_cell = self.ref_cell(next_address)
+            if next_cell.is_none():
+                return []
+            if (next_cell.is_black() and turn == Color.WHITE) or (
+                next_cell.is_white() and turn == Color.BLACK
+            ):
+                list.append(next_address)
+                return search_next(next_address, list, next)
+            return list
+
+        results: List[Address] = []
+        results.extend(
+            search_next(
+                startPoint, [], lambda address: Address(address.x, address.y - 1)
+            )
+        )
+        results.extend(
+            search_next(
+                startPoint, [], lambda address: Address(address.x, address.y + 1)
+            )
+        )
+        results.extend(
+            search_next(
+                startPoint, [], lambda address: Address(address.x - 1, address.y)
+            )
+        )
+        results.extend(
+            search_next(
+                startPoint, [], lambda address: Address(address.x + 1, address.y)
+            )
+        )
+
+        results.extend(
+            search_next(
+                startPoint, [], lambda address: Address(address.x - 1, address.y - 1)
+            )
+        )
+        results.extend(
+            search_next(
+                startPoint, [], lambda address: Address(address.x + 1, address.y - 1)
+            )
+        )
+        results.extend(
+            search_next(
+                startPoint, [], lambda address: Address(address.x - 1, address.y + 1)
+            )
+        )
+        results.extend(
+            search_next(
+                startPoint, [], lambda address: Address(address.x + 1, address.y + 1)
+            )
+        )
+        return results
 
 
 class Controller:
@@ -101,10 +178,13 @@ class Controller:
         else:
             self.turn = Color.WHITE
 
-    def validate(self, inputs: list[str]) -> bool:
+    def validate(self, input_str: str) -> bool:
+        inputs = [str.strip() for str in input_str.split(",")]
+        if len(inputs) != 2:
+            return False
         x = inputs[0]
         y = inputs[1]
-        if x.isdecimal() and 0 <= int(x) < 7 and y.isdecimal() and 0 <= int(y) <= 7:
+        if x.isdecimal() and 0 <= int(x) <= 7 and y.isdecimal() and 0 <= int(y) <= 7:
             return True
         else:
             return False
@@ -124,14 +204,15 @@ class Controller:
                 print("パスします。")
                 self.change_trun()
                 continue
-            inputs = [str.strip() for str in input_str.split(",")]
-            if not self.validate(inputs):
+            if not self.validate(input_str):
                 print("入力内容が不正です。「列番号,行番号」の形式で入力して下さい。例）左上隅の場合：0,0")
                 continue
-            if not self.board.put(int(inputs[0]), int(inputs[1]), self.turn):
+            inputs = [str.strip() for str in input_str.split(",")]
+            address = Address(int(inputs[0]), int(inputs[1]))
+            if not self.board.put(self.turn, address):
                 print("そこには置けません。")
                 continue
-            self.turn = self.change_trun()
+            self.change_trun()
 
         print("終了します。")
 

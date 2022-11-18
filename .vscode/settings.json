@@ -7,7 +7,6 @@
         "editor.formatOnSave": true // ファイル保存時に自動フォーマット
     },
     "code-runner.executorMap": {
-
         "javascript": "node",
         "java": "cd $dir && javac $fileName && java $fileNameWithoutExt",
         "c": "cd $dir && gcc $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
@@ -60,4 +59,6 @@
         "fortran": "cd $dir && gfortran $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
         "sml": "cd $dir && sml $fileName"
     },
+    "python.languageServer": "Pylance",
+    "python.analysis.typeCheckingMode": "basic",
 }
