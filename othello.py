@@ -13,9 +13,9 @@ class Stone:
 
     def get(self) -> str:
         if self.color == Color.WHITE:
-            return "o"
+            return 'o'
         else:
-            return "●"
+            return '●'
 
     def is_black(self) -> bool:
         return True if self.color == Color.BLACK else False
@@ -41,8 +41,8 @@ class Cell:
         self.stone = Stone(color)
 
     def draw(self) -> None:
-        stone = " " if self.stone is None else self.stone.get()
-        print(f"|{stone}", end="")
+        stone = ' ' if self.stone is None else self.stone.get()
+        print(f'|{stone}', end='')
 
     def reverse(self) -> None:
         if not self.stone is None:
@@ -85,12 +85,12 @@ class Board:
         self.board[4][4].put(Color.BLACK)
 
     def draw(self) -> None:
-        print("  0 1 2 3 4 5 6 7")
+        print('  0 1 2 3 4 5 6 7')
         for i, row in enumerate(self.board):
-            print(i, end="")
+            print(i, end='')
             for cell in row:
                 cell.draw()
-            print("|")
+            print('|')
 
     def put(self, color: Color, address: Address) -> bool:
         targets = self.search(color, address)
@@ -193,7 +193,7 @@ class Controller:
             self.turn = Color.WHITE
 
     def validate(self, input_str: str) -> bool:
-        inputs = [str.strip() for str in input_str.split(",")]
+        inputs = [str.strip() for str in input_str.split(',')]
         if len(inputs) != 2:
             return False
         x = inputs[0]
@@ -204,27 +204,27 @@ class Controller:
             return False
 
     def start(self) -> None:
-        print("石を置きたい場所を「列番号,行番号」の形式で入力して下さい。例）左上隅の場合：0,0")
-        print("やめたい時は「quit」と入力して下さい。")
-        print("パスをしたい時は「pass」と入力して下さい。")
+        print('石を置きたい場所を「列番号,行番号」の形式で入力して下さい。例）左上隅の場合：0,0')
+        print('やめたい時は「quit」と入力して下さい。')
+        print('パスをしたい時は「pass」と入力して下さい。')
 
         while True:
-            print("白の番です。" if self.turn == Color.WHITE else "黒の番です。")
+            print('白の番です。' if self.turn == Color.WHITE else '黒の番です。')
             self.board.draw()
-            input_str = input("> ")
-            if input_str == "quit":
+            input_str = input('> ')
+            if input_str == 'quit':
                 break
-            if input_str == "pass":
-                print("パスします。")
+            if input_str == 'pass':
+                print('パスします。')
                 self.change_trun()
                 continue
             if not self.validate(input_str):
-                print("入力内容が不正です。「列番号,行番号」の形式で入力して下さい。例）左上隅の場合：0,0")
+                print('入力内容が不正です。「列番号,行番号」の形式で入力して下さい。例）左上隅の場合：0,0')
                 continue
-            inputs = [str.strip() for str in input_str.split(",")]
+            inputs = [str.strip() for str in input_str.split(',')]
             address = Address(int(inputs[0]), int(inputs[1]))
             if not self.board.put(self.turn, address):
-                print("そこには置けません。")
+                print('そこには置けません。')
                 continue
             self.change_trun()
 
@@ -243,6 +243,6 @@ class Controller:
             print('引き分けです。')
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     ctrl = Controller(Color.WHITE)
     ctrl.start()
