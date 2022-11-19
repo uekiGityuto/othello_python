@@ -1,6 +1,6 @@
 {
     // Python コードを black でフォーマットする設定
-    // （Python 拡張をインストールして pip install black しておく）
+    // （Python 拡張をインストールして python3 -m pip install black しておく）
     "python.formatting.provider": "black",
     "[python]": {
         "editor.defaultFormatter": null, // Prettier を使わないようにする
