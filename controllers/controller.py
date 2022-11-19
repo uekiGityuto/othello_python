@@ -16,8 +16,7 @@ class Controller:
         inputs = [str.strip() for str in input_str.split(",")]
         if len(inputs) != 2:
             return False
-        x = inputs[0]
-        y = inputs[1]
+        x, y = inputs
         if x.isdecimal() and 0 <= int(x) <= 7 and y.isdecimal() and 0 <= int(y) <= 7:
             return True
         else:
@@ -41,8 +40,8 @@ class Controller:
             if not self.validate(input_str):
                 print("入力内容が不正です。「列番号,行番号」の形式で入力して下さい。例）左上隅の場合：0,0")
                 continue
-            inputs = [str.strip() for str in input_str.split(",")]
-            address = model.Address(int(inputs[0]), int(inputs[1]))
+            x, y = [str.strip() for str in input_str.split(",")]
+            address = model.Address(int(x), int(y))
             if not self.board.put(self.turn, address):
                 print("そこには置けません。")
                 continue

@@ -94,7 +94,7 @@ class Board:
 
     def put(self, color: Color, address: Address) -> bool:
         targets = self.search(color, address)
-        if len(targets) == 0:
+        if not len(targets):
             return False
 
         self.ref_cell(address).put(color)
