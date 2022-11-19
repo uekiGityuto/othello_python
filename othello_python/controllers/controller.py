@@ -1,4 +1,4 @@
-import models.model as model
+from models import model
 
 
 class Controller:

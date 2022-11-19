@@ -45,7 +45,7 @@ class Cell:
         print(f"|{stone}", end="")
 
     def reverse(self) -> None:
-        if not self.stone is None:
+        if self.stone is not None:
             self.stone.reverse()
 
     def is_none(self) -> bool:
@@ -78,7 +78,7 @@ class Address:
 
 class Board:
     def __init__(self) -> None:
-        self.board = [[Cell() for i in range(8)] for i in range(8)]
+        self.board = [[Cell() for _ in range(8)] for _ in range(8)]
         self.board[3][3].put(Color.BLACK)
         self.board[3][4].put(Color.WHITE)
         self.board[4][3].put(Color.WHITE)
