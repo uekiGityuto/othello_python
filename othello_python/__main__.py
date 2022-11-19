@@ -1,5 +1,4 @@
-from othello_python import controller
-from othello_python import model
+from othello_python import controller, model
 
 if __name__ == "__main__":
     ctrl = controller.Controller(model.Color.WHITE)

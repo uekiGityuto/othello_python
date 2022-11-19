@@ -47,13 +47,7 @@ deactivate
 ## テスト方法
 
 ```
-
-```
-
-## ビルド方法
-
-```
-
+python3 -m unittest discover
 ```
 
 ## デバッグ方法
