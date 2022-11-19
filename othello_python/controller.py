@@ -1,4 +1,4 @@
-from models import model
+from othello_python import model
 
 
 class Controller:

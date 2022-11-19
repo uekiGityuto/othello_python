@@ -30,14 +30,6 @@ VS Code
 
 ## 環境準備
 
-事前に仮想環境を有効化しておく、
-
-```
-
-```
-
-必要なパッケージのインストール
-
 ```
 python3 -m pip install --upgrade pip
 source .venv/bin/activate
@@ -71,7 +63,7 @@ VS Code のデバッグを実行する。
 ## 実行方法
 
 ```
-python3 main.py
+python3 -m othello_python
 ```
 
 ## 遊び方
