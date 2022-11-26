@@ -23,7 +23,7 @@ class Controller:
             return False
 
     def start(self) -> None:
-        print("石を置きたい場所を「列番号,行番号」の形式で入力して下さい。例）左上隅の場合：0,0")
+        print("石を置きたい場所を「列番号,行番号」の形式で入力して下さい。例）左上隅の場合: 0,0")
         print("やめたい時は「quit」と入力して下さい。")
         print("パスをしたい時は「pass」と入力して下さい。")
 
@@ -38,7 +38,7 @@ class Controller:
                 self.change_trun()
                 continue
             if not self.validate(input_str):
-                print("入力内容が不正です。「列番号,行番号」の形式で入力して下さい。例）左上隅の場合：0,0")
+                print("入力内容が不正です。「列番号,行番号」の形式で入力して下さい。例）左上隅の場合: 0,0")
                 continue
             x, y = [str.strip() for str in input_str.split(",")]
             address = model.Address(int(x), int(y))
@@ -60,8 +60,3 @@ class Controller:
             print("黒の勝利です。")
         else:
             print("引き分けです。")
-
-
-if __name__ == "__main__":
-    ctrl = Controller(model.Color.WHITE)
-    ctrl.start()

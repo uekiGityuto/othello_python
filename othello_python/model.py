@@ -119,7 +119,7 @@ class Board:
     def ref_cell(self, address: Address) -> Cell:
         return self.board[address.y][address.x]
 
-    def search(self, turn: Color, startPoint: Address) -> List[Address]:
+    def search(self, color: Color, startPoint: Address) -> List[Address]:
         def search_next(
             current: Address, list: List[Address], next: Callable[[Address], Address]
         ) -> List[Address]:
@@ -129,8 +129,8 @@ class Board:
             next_cell = self.ref_cell(next_address)
             if next_cell.is_none():
                 return []
-            if (next_cell.is_black() and turn == Color.WHITE) or (
-                next_cell.is_white() and turn == Color.BLACK
+            if (next_cell.is_black() and color == Color.WHITE) or (
+                next_cell.is_white() and color == Color.BLACK
             ):
                 list.append(next_address)
                 return search_next(next_address, list, next)
