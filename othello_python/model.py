@@ -119,7 +119,7 @@ class Board:
     def ref_cell(self, address: Address) -> Cell:
         return self.board[address.y][address.x]
 
-    def search(self, color: Color, startPoint: Address) -> List[Address]:
+    def search(self, color: Color, start_point: Address) -> List[Address]:
         def search_next(
             current: Address, list: List[Address], next: Callable[[Address], Address]
         ) -> List[Address]:
@@ -139,43 +139,43 @@ class Board:
         results: List[Address] = []
         results.extend(
             search_next(
-                startPoint, [], lambda address: Address(address.x, address.y - 1)
+                start_point, [], lambda address: Address(address.x, address.y - 1)
             )
         )
         results.extend(
             search_next(
-                startPoint, [], lambda address: Address(address.x, address.y + 1)
+                start_point, [], lambda address: Address(address.x, address.y + 1)
             )
         )
         results.extend(
             search_next(
-                startPoint, [], lambda address: Address(address.x - 1, address.y)
+                start_point, [], lambda address: Address(address.x - 1, address.y)
             )
         )
         results.extend(
             search_next(
-                startPoint, [], lambda address: Address(address.x + 1, address.y)
+                start_point, [], lambda address: Address(address.x + 1, address.y)
             )
         )
 
         results.extend(
             search_next(
-                startPoint, [], lambda address: Address(address.x - 1, address.y - 1)
+                start_point, [], lambda address: Address(address.x - 1, address.y - 1)
             )
         )
         results.extend(
             search_next(
-                startPoint, [], lambda address: Address(address.x + 1, address.y - 1)
+                start_point, [], lambda address: Address(address.x + 1, address.y - 1)
             )
         )
         results.extend(
             search_next(
-                startPoint, [], lambda address: Address(address.x - 1, address.y + 1)
+                start_point, [], lambda address: Address(address.x - 1, address.y + 1)
             )
         )
         results.extend(
             search_next(
-                startPoint, [], lambda address: Address(address.x + 1, address.y + 1)
+                start_point, [], lambda address: Address(address.x + 1, address.y + 1)
             )
         )
         return results
