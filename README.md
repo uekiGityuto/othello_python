@@ -31,10 +31,16 @@ VS Code
 
 ## 環境準備
 
+※
+python3 を python コマンドで実行出来る前提。
+
+python コマンドで python2 が実行される場合は、python コマンドを python3 コマンドに読み替えて実行すること。
+
 ```
-python3 -m pip install --upgrade pip
+python -m pip install --upgrade pip
+python -m venv .venv
 source .venv/bin/activate
-python3 -m pip install -r requirements.txt
+python -m pip install -r requirements.txt
 ```
 
 ※
@@ -48,7 +54,7 @@ deactivate
 ## テスト方法
 
 ```
-python3 -m unittest discover
+python -m unittest discover
 ```
 
 ## デバッグ方法
@@ -58,7 +64,7 @@ VS Code のデバッグを実行する。
 ## 実行方法
 
 ```
-python3 -m othello_python
+python -m othello_python
 ```
 
 ## 遊び方
