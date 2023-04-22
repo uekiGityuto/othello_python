@@ -26,8 +26,6 @@ VS Code
 - [isort](https://marketplace.visualstudio.com/items?itemName=ms-python.isort)
 - [Pylance](https://marketplace.visualstudio.com/items?itemName=ms-python.vscode-pylance)
 - [Python](https://marketplace.visualstudio.com/items?itemName=ms-python.python)
-- [Code Runner](https://marketplace.visualstudio.com/items?itemName=formulahendry.code-runner)
-  ※ Code Runner は標準入力出来なくて？最終的には使わなかったが、`.vscode/setting.json`で設定だけしたので記載
 
 ## 環境準備
 
